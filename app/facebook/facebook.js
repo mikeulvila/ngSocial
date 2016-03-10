@@ -27,6 +27,7 @@ angular.module('ngSocial.facebook', ['ngRoute', 'ngFacebook'])
 .controller('FacebookCtrl', ['$scope', '$facebook', function($scope, $facebook) {
 
   $scope.isLoggedIn = false;
+  $scope.welcomeMsg = 'Please Log In'
 
   $scope.login = function () {
     $facebook.login().then(function(){
@@ -45,6 +46,7 @@ angular.module('ngSocial.facebook', ['ngRoute', 'ngFacebook'])
   };
 
   function refresh () {
+    console.log('IS RUNNING REFRESH')
     $facebook.api('/me', {fields: 'id,name,last_name,first_name,email,gender,locale,link'}).then(function (response) {
       console.log('response>>>', response)
       $scope.isLoggedIn = true;
@@ -65,7 +67,13 @@ angular.module('ngSocial.facebook', ['ngRoute', 'ngFacebook'])
     });
   }
 
-  refresh();
+  $scope.postStatus = function () {
+    var body = this.body;
+    $facebook.api('/me/feed', 'POST', {message: body}).then(function (response) {
+        $scope.msg = 'Thanks for posting.';
+        refresh();
+    });
+  }
 
 
 }]);
