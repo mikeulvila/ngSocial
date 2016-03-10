@@ -12,6 +12,7 @@ angular.module('ngSocial.facebook', ['ngRoute', 'ngFacebook'])
 .config(function( $facebookProvider ) {
   $facebookProvider.setAppId('840567996070980');
   $facebookProvider.setPermissions('email,public_profile,user_posts,publish_actions,user_photos');
+  $facebookProvider.setVersion("v2.5");
 })
 
 .run(function ($rootScope) {
@@ -28,6 +29,10 @@ angular.module('ngSocial.facebook', ['ngRoute', 'ngFacebook'])
 
   $scope.isLoggedIn = false;
   $scope.welcomeMsg = 'Please Log In'
+
+  // $facebook.getLoginStatus().then(function(status) {
+  //   console.log('status>>>', status);
+  // });
 
   $scope.login = function () {
     $facebook.login().then(function(){
